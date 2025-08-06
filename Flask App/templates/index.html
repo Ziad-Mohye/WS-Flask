@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Segmentation Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h2 {
+      margin-top: 40px;
+      color: #004d40;
+    }
+
+    form {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="file"] {
+      border: 1px solid #ccc;
+      padding: 6px;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      background: #00796b;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background: #004d40;
+    }
+
+    .images {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .images div {
+      text-align: center;
+    }
+
+    .images img {
+      max-width: 300px;
+      border-radius: 10px;
+      border: 2px solid #004d40;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    h4 {
+      margin-top: 10px;
+      color: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload a Multi-band TIFF for Segmentation</h2>
+  
+  <form method="post" action="/predict" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".tif,.tiff" required>
+    <input type="submit" value="Predict">
+  </form>
+
+  {% if rgb_image %}
+  <div class="images">
+    <div>
+      <h4>Input (RGB preview)</h4>
+      <img src="data:image/png;base64,{{ rgb_image }}" alt="input">
+    </div>
+    <div>
+      <h4>Overlay (mask)</h4>
+      <img src="data:image/png;base64,{{ output_image }}" alt="overlay">
+    </div>
+  </div>
+  {% endif %}
+</body>
+</html>
